@@ -1,3 +1,3 @@
 # testRepo
 
-This repo ia random. Everything is random.
+>This repo is random. Everything is random.
