@@ -1,13 +1,9 @@
-/*
- * In the node.js intro tutorial (http://nodejs.org/), they show a basic tcp 
- * server, but for some reason omit a client connecting to it.  I added an 
- * example at the bottom.
- * Save the following server in example.js:
- * */
+#!/usr/bin/env node
 
 const net = require('net');
 const parse = require('@andromeda/utils').readFrom;
 const stringify = require('@andromeda/utils').storeOn;
+const port = process.argv[2] ?  process.argv[2] : 1237;
 
 let func;
 let args;
@@ -28,6 +24,6 @@ const server = net.createServer(function(socket) {
   });
 });
 
-server.listen(1337, '127.0.0.1');
+server.listen(port, '127.0.0.1');
 
 

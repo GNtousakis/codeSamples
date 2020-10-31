@@ -8,6 +8,9 @@ const totalTime = new Map();
 const inQueue = new Map();
 const timeCapsule = {};
 
+let ports = [];
+let onUse = [];
+
 // Helper Functions
 
 // Change the time parameters
@@ -21,19 +24,31 @@ const convert = (hrtime) => {
 // Normalize all values (seconds and to microseconds)
 const toMillis = (a, b) => (a * 1e9 + b) * 1e-6;
 
+const getport = () => {
+  if(!ports) {
+    return 1237;
+  }
+	
+  if(onUse[ports[0]] > onUse[ports[1]]){
+    onUse[port[1]]++;
+    return port[1];    
+  } else {
+    onUse[port[1]]++;
+    return port[1];
+  }
+}
 const connClient = (func, args) => {
   var client = new net.Socket();
-  client.connect(1337, '127.0.0.1', function() {
+  client.connect(getport(), '127.0.0.1', function() {
       client.write(func + '@@div@@' + args);
   });
 
   client.on('data', function(data) {
     const result = parse(data.toString());
     console.log(result);
+    console.log(client.address())
     return;
   });
-
-  //setTimeout(connClient);
 }
 
 // Send the slow function to another node
@@ -91,8 +106,12 @@ const onExit = () => {
 
 module.exports = (e) => {
   env = e;
+  ports = env.conf.ports;
+  onUse[ports[0]] = 0;
+  onUse[ports[1]] = 0; 
   // We first just track the module exports
   env.conf.context.include = ['module-returns'];
+
   return {
     onCallPre: onCallPre,
     onCallPost: onCallPost,
