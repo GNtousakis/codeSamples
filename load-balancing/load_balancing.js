@@ -30,25 +30,28 @@ const getport = () => {
   }
 	
   if(onUse[ports[0]] > onUse[ports[1]]){
-    onUse[port[1]]++;
-    return port[1];    
+    onUse[ports[1]]++;
+    return ports[1];    
   } else {
-    onUse[port[1]]++;
-    return port[1];
+    onUse[ports[1]]++;
+    return ports[1];
   }
 }
 const connClient = (func, args) => {
   var client = new net.Socket();
-  client.connect(getport(), '127.0.0.1', function() {
+  var port = getport();
+  
+  client.connect(port, 'localhost', function() {
       client.write(func + '@@div@@' + args);
   });
 
   client.on('data', function(data) {
+    onUse[port]--;
     const result = parse(data.toString());
     console.log(result);
-    console.log(client.address())
     return;
   });
+
 }
 
 // Send the slow function to another node

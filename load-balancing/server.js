@@ -24,6 +24,6 @@ const server = net.createServer(function(socket) {
   });
 });
 
-server.listen(port, '127.0.0.1');
+server.listen(port,'localhost');
 
 
