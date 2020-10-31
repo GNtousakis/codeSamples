@@ -1,5 +1,8 @@
 // Variable declaration
 let env;
+const net = require('net');
+const stringify = require('@andromeda/utils').storeOn;
+const parse = require('@andromeda/utils').readFrom; 
 const startTime = new Map();
 const totalTime = new Map();
 const inQueue = new Map();
@@ -18,19 +21,37 @@ const convert = (hrtime) => {
 // Normalize all values (seconds and to microseconds)
 const toMillis = (a, b) => (a * 1e9 + b) * 1e-6;
 
+const connClient = (func, args) => {
+  var client = new net.Socket();
+  client.connect(1337, '127.0.0.1', function() {
+      client.write(func + '@@div@@' + args);
+  });
+
+  client.on('data', function(data) {
+    const result = parse(data.toString());
+    console.log(result);
+    return;
+  });
+
+  //setTimeout(connClient);
+}
+
+// Send the slow function to another node
+const scale = (func, thisArg, argumentsList) => {
+  const funcSerial = stringify(func);
+  const argsSerial = stringify(argumentsList);
+  const result = connClient(funcSerial, argsSerial);}
+
 // Check if a functions takes longer than a specific threshold
-const checkReq = (target) => {
+const checkReq = (target, thisArg, argumentsList) => {
   startup = 12.9;
   functionTime = totalTime.get(target);  
   inLine = inQueue.get(target);
 
-  console.log(inLine);
-  if (functionTime > startup) {
-    console.log(functionTime, startup)
-    console.log("scale");
-  } else {
-    console.log("do nothing");
-  }
+  if (functionTime + (functionTime * inLine) > startup) {
+    scale(target, thisArg, argumentsList);
+    return Function()   
+  } 
 }
 
 // Hooks 
@@ -41,10 +62,10 @@ const onCallPre = (info) => {
     inQueue.set(info.target, 0);
     startTime.set(info.target, process.hrtime());
   }else{
-    checkReq(info.target);
+    return checkReq(info.target, info.thisArg, info.argumentsList);
   }
-  size = inQueue.get(info.target) + 1;
-  inQueue.set(info.target, size);  
+
+  inQueue.set(info.target, inQueue.get(info.target) + 1);   
 };
 
 // This hook is called after every execution of a function
