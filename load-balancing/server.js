@@ -3,27 +3,26 @@
 const net = require('net');
 const parse = require('@andromeda/utils').readFrom;
 const stringify = require('@andromeda/utils').storeOn;
-const port = process.argv[2] ?  process.argv[2] : 1237;
+const port = process.argv[2] ?  process.argv[2] : 1238;
+const math = require('./math.js');
 
-let func;
-let args;
+const map = new Map();
+map.set('./math.js', math);
 
-const serialize = (stringFunc, stringArgs) => {
-  const func = parse(stringFunc);
-  const args = parse(stringArgs);
-  console.log(func, args);
-  return func.call(this, ...args);
+const serialize = (msg) => {
+  msg = parse(msg);
+  const obj = map.get(msg.mod);
+  const func = obj[msg.func];
+  return func.call(this, ...msg.args);
 }
 
 const server = net.createServer(function(socket) {
   socket.on('data',function(data){   
     var newdata = data.toString();
-    const split = newdata.split('@@div@@');
-    const result = serialize(split[0], split[1]);
+    const result = serialize(newdata);
     socket.write(stringify(result));   
   });
 });
 
 server.listen(port,'localhost');
-
 

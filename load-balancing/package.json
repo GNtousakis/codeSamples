@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@andromeda/utils": "0.0.13"
+    "@andromeda/utils": "0.0.13",
+    "ncp": "^2.0.0",
+    "pad": "^3.2.0",
+    "ycb": "^2.1.2"
   }
 }

@@ -22,34 +22,46 @@ const convert = (hrtime) => {
 // Normalize all values (seconds and to microseconds)
 const toMillis = (a, b) => (a * 1e9 + b) * 1e-6;
 
-const connClient = (func, args) => {
+const connClient = (msg, callback) => {
   var client = new net.Socket();
   client.connect(1238, 'localhost', function() {
-      client.write(func + '@@div@@' + args);
+      client.write(msg);
   });
 
   client.on('data', function(data) {
     const result = parse(data.toString());
-    console.log(result);
+    callback(result);
     return;
   });
 
 }
 
 // Send the slow function to another node
-const scale = (func, thisArg, argumentsList) => {
-  const funcSerial = stringify(func);
-  const argsSerial = stringify(argumentsList);
-  const result = connClient(funcSerial, argsSerial);}
+const scale = (func, package, argumentsList) => {
+  var argLength = argumentsList.length;
+  var arguments = argumentsList;
+  var callback = null;
+  if (typeof arguments[argLength - 1] === 'function') {
+    callback = arguments.pop();
+  }
+
+  toSend = {
+    mod: package,
+    func: func.name,
+    args: arguments,
+  }
+
+  connClient(stringify(toSend), callback);
+}
 
 // Check if a functions takes longer than a specific threshold
-const checkReq = (target, thisArg, argumentsList) => {
-  startup = 12.9;
-  functionTime = totalTime.get(target);  
-  inLine = inQueue.get(target);
+const checkReq = (target, package, argumentsList) => {
+  var startup = 12.9;
+  var functionTime = totalTime.get(target);  
+  var inLine = inQueue.get(target);
 
   if (functionTime + (functionTime * inLine) > startup) {
-    scale(target, thisArg, argumentsList);
+    scale(target, package, argumentsList);
     return Function()   
   } 
 }
@@ -62,9 +74,9 @@ const onCallPre = (info) => {
     inQueue.set(info.target, 0);
     startTime.set(info.target, process.hrtime());
   }else{
-    return checkReq(info.target, info.thisArg, info.argumentsList);
+    return checkReq(info.target, info.package, info.argumentsList);
   }
-
+  
   inQueue.set(info.target, inQueue.get(info.target) + 1);   
 };
 
