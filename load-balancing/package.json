@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@andromeda/utils": "0.0.13",
+    "cash": "^0.8.0",
     "ncp": "^2.0.0",
     "pad": "^3.2.0",
     "ycb": "^2.1.2"
