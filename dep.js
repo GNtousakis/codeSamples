@@ -1,9 +1,21 @@
+const packageName = process.argv[2] ? process.argv[2] : "@andromeda/lya";
 const PackageDependents = require("package-dependents");
  
-// Get is-there's dependents
-PackageDependents("is-there").then(packages => {
-    packages.forEach(c => {
-        console.log(c.name + (c.author && c.author.name ? " by " + c.author.name : ""));
-    })
-})
+var counter = 0;
 
+// Get package dependents
+const getDep = (name) => {
+  PackageDependents(name).then(packages => {
+      packages.forEach(c => {
+        console.log(c.name);
+        counter++;
+        getDep(c.name);
+    })
+  })
+}
+
+getDep(packageName);
+
+process.on('exit', () => {
+  console.log("The total number of dep packages is:", counter)
+});
