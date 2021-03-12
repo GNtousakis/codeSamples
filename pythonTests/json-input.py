@@ -22,6 +22,6 @@ if __name__ == "__main__":
     # Parse the json data 
     data = json.loads(raw_data)
     print(data['action'])
-    print(data['argument']['best'])
+    print(int(data['argument']['best']) * 100 + 'hey')
 
     make_json()
