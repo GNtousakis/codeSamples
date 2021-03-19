@@ -9,7 +9,7 @@ def make_json():
         }
     obj_send = json.dumps(obj)
     print(obj_send)
-
+    return 'lala'
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test input")
@@ -22,6 +22,9 @@ if __name__ == "__main__":
     # Parse the json data 
     data = json.loads(raw_data)
     print(data['action'])
-    print(int(data['argument']['best']) * 100 + 'hey')
-
-    make_json()
+    print(str(int(data['argument']['best'])) + 'hey')
+    
+    data['argument']['malicious_ip'] = '1.1.1.1'
+    print(data)
+    lala = make_json()
+    print(lala)
