@@ -1,0 +1,35 @@
+{
+  "name": "modulify",
+  "version": "0.1.0-1",
+  "description": "Generate nodejs modules from plain old javascript",
+  "main": "./src/modulify.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "dependencies": {
+    "esprima": ">=1.0.4",
+    "jasmine-node": ">=1.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jasmine-node specs/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/matthewkastor/modulify.git"
+  },
+  "keywords": [
+    "module",
+    "code",
+    "generator",
+    "atropa"
+  ],
+  "homepage": "https://github.com/matthewkastor/modulify/",
+  "bugs": "https://github.com/matthewkastor/modulify/issues",
+  "author": "Matthew Kastor <matthewkastor@gmail.com> (https://plus.google.com/100898583798552211130)",
+  "engines": {
+    "node": ">=0.8.14"
+  },
+  "license": "gpl-3.0"
+}

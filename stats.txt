@@ -1,9 +1,9 @@
 uppercase
 Package depentends: 3
 slug
-Package depentends: 526
+Package depentends: 547
 camel-case
-Package depentends: 931
+Package depentends: 0
 r-trim
 Package depentends: 0
 constant-case

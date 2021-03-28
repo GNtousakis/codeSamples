@@ -1,0 +1,40 @@
+{
+  "name": "m-log",
+  "version": "0.0.1",
+  "description": "Log Utility.",
+  "main": "index.js",
+  "engines": {
+    "node": "~>0.10.x",
+    "npm": ">= 1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/misak1/m-log.git"
+  },
+  "scripts": {
+    "examples": "node ./examples/index.js",
+    "test": "mocha --ui tdd ./tests/"
+  },
+  "author": {
+    "name": "Misaki Shibata",
+    "email": "misaki.pink@gmail.com",
+    "url": ""
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/misak1/m-log/issues"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "date-format": "0.0.2"
+  },
+  "devDependencies": {
+    "should": "^7.1.1",
+    "mocha": "^2.3.3"
+  },
+  "keywords": [
+    "log",
+    "Utility",
+    "color"
+  ]
+}
