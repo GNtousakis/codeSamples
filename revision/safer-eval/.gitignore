@@ -1,9 +1,0 @@
-node_modules
-coverage/
-.nyc_output/
-output/
-tmp/
-lib/
-*.log
-*.tgz
-*.sh

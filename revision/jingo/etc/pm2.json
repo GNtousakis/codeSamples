@@ -1,7 +1,0 @@
-{
-  "apps": [{
-    "name": "jingo",
-    "script": "jingo",
-    "args": ["-c", "config.yaml"]
-  }]
-}
