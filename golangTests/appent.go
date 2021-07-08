@@ -2,6 +2,7 @@ package main
 
 import (
   "fmt"
+  "strings"
 )
 
 func main() {
@@ -15,5 +16,7 @@ func main() {
 		"/opt/dionaea/bin/dionaea "},
 		args...)
 	modArgs = append(modArgs, []string{" && sleep infinity\""}...)
-  fmt.Print("%v\n",modArgs)
+        	var stringArgs string = strings.Join(modArgs, " ")
+fmt.Println(modArgs)
+  fmt.Println(stringArgs)
 }
