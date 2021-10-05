@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	listener, err := net.Listen("tcp", "localhost:6001")
+	listener, err := net.Listen("tcp", "127.0.0.1:6001")
 	if err != nil {
 		log.Fatal(err)
 	}
